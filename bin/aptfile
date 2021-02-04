@@ -183,6 +183,17 @@ packagelist() {
   fi
 }
 
+key() {
+  [[ $TRACE ]] && set -x
+  [[ -z $1 ]] && log_fail "Please specify a remote key to add"
+  [[ -z $2 ]] && log_fail "Please specify a key file name"
+  curl -fsSL "$1" | gpg --dearmor | tee /usr/share/keyrings/"$2" 2>&1 >/dev/null
+  apt-key adv --fetch-keys "$1"
+  [[ $? -eq 0 ]] || log_fail "${APTFILE_RED}[FAIL]${APTFILE_COLOR_OFF} key $1"
+  log_info "${APTFILE_GREEN}[NEW]${APTFILE_COLOR_OFF} key $1"
+  log_info "${APTFILE_YELLOW}[WARN] don't forget to put \"signed-by=/usr/share/keyrings/$2\" in the repository list${APTFILE_COLOR_OFF}"
+}
+
 ppa() {
   [[ $TRACE ]] && set -x
   [[ -z $1 ]] && log_fail "Please specify a repository to setup"
@@ -241,6 +252,7 @@ export -f update
 export -f package
 export -f package_from_url
 export -f packagelist
+export -f key
 export -f ppa
 export -f repository
 export -f debconf_selection

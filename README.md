@@ -6,6 +6,7 @@ a simple method of defining apt-get dependencies for an application
 
 - apt-get
 - dpkg
+- gpg
 
 ## installation
 
@@ -41,6 +42,9 @@ update
 package "build-essential"
 package "git-core"
 package "software-properties-common"
+
+# add a key
+key "https://download.docker.com/linux/ubuntu/gpg" "docker-ce-archive-keyring.gpg"
 
 # install a ppa
 ppa "fkrull/deadsnakes-python2.7"
@@ -88,6 +92,8 @@ Running update
 [NEW] package build-essential
 [NEW] package git-core
 [NEW] package software-properties-common
+[NEW] key https://download.docker.com/linux/ubuntu/gpg
+[WARN] don't forget to put "signed-by=/usr/share/keyrings/docker-ce-archive-keyring.gpg" in the repository list
 [NEW] ppa fkrull/deadsnakes-python2.7
 [NEW] package python2.7
 [NEW] package python-pip
@@ -145,6 +151,16 @@ Installs an aptitude repository via `add-apt-repository`:
 repository "deb http://us.archive.ubuntu.com/ubuntu/ saucy universe multiverse"
 repository "ppa:mozillateam/firefox-next"
 ```
+
+### key
+
+Adds a key using the new method suggested by the `apt-key(8)` developers:
+
+```shell
+key "https://download.docker.com/linux/ubuntu/gpg" "docker-ce-archive-keyring.gpg"
+```
+
+See: [apt-key(8) manpage](https://manpages.debian.org/testing/apt/apt-key.8.en.html#DESCRIPTION)
 
 ### ppa
 
