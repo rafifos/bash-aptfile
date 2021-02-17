@@ -159,7 +159,7 @@ package_from_url() {
   tempdir=$(mktemp -d)
   $dl_cmd $dl_options $tempdir/${name}.deb $url \
     && apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confnew" -qq -y --force-yes install "$tempdir/${name}.deb"
-  if [[ $? -ne 0 ]]; then 
+  if [[ $? -ne 0 ]]; then
     rm -r $tempdir
     log_fail "${APTFILE_RED}[FAIL]${APTFILE_COLOR_OFF} package $name"
   fi
@@ -227,7 +227,7 @@ repository_file() {
   if [[ "$repo" != "deb "* ]]; then
     releasename=$(lsb_release -sc)
     if [[ "$repo" == *" "* ]]; then
-      # Components given in sourceline, adding suite 
+      # Components given in sourceline, adding suite
       # i.e. sourceline="http://domain.invalid/debian main"
       repo="deb ${repo/ / $releasename }"
     else
